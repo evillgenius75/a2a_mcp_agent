@@ -176,8 +176,29 @@ async def query_db(session: ClientSession) -> CallToolResult:
     )
 
 
+async def get_summary(session: ClientSession, user_query: str, results: list) -> CallToolResult:
+    """Calls the 'get_summary' tool on the connected MCP server.
+
+    Args:
+        session: The active ClientSession.
+        user_query: The original user query.
+        results: The results from the worker agents.
+
+    Returns:
+        The result of the tool call.
+    """
+    logger.info("Calling 'get_summary' tool'")
+    return await session.call_tool(
+        name='get_summary',
+        arguments={
+            'user_query': user_query,
+            'results': results,
+        },
+    )
+
+
 # Test util
-async def main(host, port, transport, query, resource, tool):
+async def main(host, port, transport, query, resource, tool, get_summary):
     """Main asynchronous function to connect to the MCP server and execute commands.
 
     Used for local testing.
@@ -215,6 +236,55 @@ async def main(host, port, transport, query, resource, tool):
                 logger.info(result)
                 data = json.loads(result.content[0].text)
                 logger.info(json.dumps(data, indent=2))
+        if get_summary:
+            results = [
+                {
+                    "onward": {
+                        "airport": "SFO",
+                        "date": "2025-06-03",
+                        "airline": "United",
+                        "flight_number": "UA901",
+                        "travel_class": "BUSINESS",
+                        "cost": 2500
+                    },
+                    "return": {
+                        "airport": "LHR",
+                        "date": "2025-06-09",
+                        "airline": "United",
+                        "flight_number": "UA902",
+                        "travel_class": "BUSINESS",
+                        "cost": 2500
+                    },
+                    "total_price": 5000,
+                    "status": "completed",
+                    "description": "Booking Complete"
+                },
+                {
+                    "name": "The Landmark London",
+                    "city": "London",
+                    "hotel_type": "HOTEL",
+                    "room_type": "SUITE",
+                    "price_per_night": 500,
+                    "check_in_time": "3:00 pm",
+                    "check_out_time": "11:00 am",
+                    "total_rate_usd": 3000,
+                    "status": "booking_complete",
+                    "description": "Booking Complete"
+                },
+                {
+                    "pickup_date": "2025-06-03",
+                    "return_date": "2025-06-09",
+                    "provider": "Hertz",
+                    "city": "London",
+                    "car_type": "SEDAN",
+                    "status": "booking_complete",
+                    "price": 500,
+                    "description": "Booking Complete"
+                }
+            ]
+            result = await get_summary(session, get_summary, results)
+            data = json.loads(result.content[0].text)
+            logger.info(json.dumps(data, indent=2))
 
 
 # Command line tester
@@ -226,9 +296,10 @@ async def main(host, port, transport, query, resource, tool):
 @click.option('--resource', help='URI of the resource to locate')
 @click.option('--tool_name', type=click.Choice(['search_flights', 'search_hotels', 'query_db']),
               help='Tool to execute: search_flights, search_hotels, or query_db')
-def cli(host, port, transport, find_agent, resource, tool_name):
+@click.option('--get_summary', help='Query to get a summary')
+def cli(host, port, transport, find_agent, resource, tool_name, get_summary):
     """A command-line client to interact with the Agent Cards MCP server."""
-    asyncio.run(main(host, port, transport, find_agent, resource, tool_name))
+    asyncio.run(main(host, port, transport, find_agent, resource, tool_name, get_summary))
 
 
 if __name__ == '__main__':

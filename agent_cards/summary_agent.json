@@ -1,0 +1,8 @@
+{
+    "name": "Summary Agent",
+    "description": "Generates a summary of the travel itinerary.",
+    "content_types": [
+        "text",
+        "text/plain"
+    ]
+}

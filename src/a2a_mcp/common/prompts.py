@@ -561,3 +561,14 @@ Context: ```{TRIP_CONTEXT}```
 History: ```{CONVERSATION_HISTORY}```
 Question: ```{TRIP_QUESTION}```
 """
+
+SUMMARY_AGENT_PROMPT = """You are an expert travel agent responsible for creating a final, human-readable summary.
+Your task is to synthesize the results from various worker agents (flights, hotels, cars) into a single, cohesive travel itinerary.
+
+- The user's original query was: {user_query}
+- The collected results from the worker agents are: {results}
+
+Based on this information, create a clear and well-formatted summary of the complete travel plan.
+Present the information in a logical order (e.g., flights, then hotel, then car).
+Do not include any extra conversation or introductory text. Just provide the final summary.
+"""

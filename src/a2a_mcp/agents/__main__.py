@@ -23,6 +23,7 @@ from a2a_mcp.common.agent_executor import GenericAgentExecutor
 from adk_travel_agent import TravelAgent
 from langgraph_planner_agent import LangGraphPlannerAgent
 from orchestrator_agent import OrchestratorAgent
+from summary_agent import SummaryAgent
 
 
 logger = logging.getLogger(__name__)
@@ -53,6 +54,8 @@ def get_agent(agent_card: AgentCard):
                 description='Book rental cars given a criteria',
                 instructions=prompts.CARS_COT_INSTRUCTIONS,
             )
+        if agent_card.name == 'Summary Agent':
+            return SummaryAgent()
             # return LangraphCarRentalAgent()
     except Exception as e:
         raise e

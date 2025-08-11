@@ -95,6 +95,11 @@ echo "-> Starting Car Rental Agent (Port: 10105)... Log: $LOG_DIR/car_rental_age
 uv run --env-file .env src/a2a_mcp/agents/ --agent-card agent_cards/car_rental_agent.json --port 10105 > "$LOG_DIR/car_rental_agent.log" 2>&1 &
 pids+=($!)
 
+# 7. Start Summary Agent
+echo "-> Starting Summary Agent (Port: 10106)... Log: $LOG_DIR/summary_agent.log"
+uv run --env-file .env src/a2a_mcp/agents/ --agent-card agent_cards/summary_agent.json --port 10106 > "$LOG_DIR/summary_agent.log" 2>&1 &
+pids+=($!)
+
 echo ""
 echo "All services are starting. Waiting 10 seconds for them to initialize..."
 sleep 10
