@@ -9,9 +9,9 @@ set -e
 
 # --- Configuration ---
 # The main working directory for the example
-WORK_DIR="/Users/eddiejv/dev/gcp/demos/a2a_mcp_agent"
+WORK_DIR="."
 # Directory to store log files for background processes
-LOG_DIR="/Users/eddiejv/dev/gcp/demos/a2a_mcp_agent/logs"
+LOG_DIR="logs"
 
 
 # --- Cleanup Function ---
