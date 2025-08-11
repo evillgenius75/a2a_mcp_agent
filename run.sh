@@ -109,7 +109,7 @@ echo ""
 
 # 7. Start the CLI client in the foreground.
 # The script will pause here until this command completes.
-uv run --env-file .env src/a2a_mcp/mcp/client.py --resource "resource://agent_cards/list" --find_agent "I would like to plan a trip to France."
+uv run --env-file .env src/a2a_mcp/mcp/client.py --demo --find_agent "I would like to plan a comprehensive 5-day business trip to London from San Francisco, including flights, luxury hotel accommodation, and car rental."
 
 echo ""
 echo "---------------------------------------------------------"
