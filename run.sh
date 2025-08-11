@@ -9,9 +9,9 @@ set -e
 
 # --- Configuration ---
 # The main working directory for the example
-WORK_DIR="samples/python/agents/a2a_mcp"
+WORK_DIR="/Users/eddiejv/dev/gcp/demos/a2a_mcp_agent"
 # Directory to store log files for background processes
-LOG_DIR="logs"
+LOG_DIR="/Users/eddiejv/dev/gcp/demos/a2a_mcp_agent/logs"
 
 
 # --- Cleanup Function ---
